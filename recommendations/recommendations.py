@@ -1,14 +1,19 @@
+# recommendations/recommendations.py
 from concurrent import futures
 import random
 
 import grpc
 
+import recommendations_pb2_grpc
+
 from recommendations_pb2 import (
     BookCategory,
     BookRecommendation,
-    RecommendationResponse,
+    RecommendationResponse
 )
-import recommendations_pb2_grpc
+
+
+
 
 books_by_category = {
     BookCategory.MYSTERY: [
@@ -34,7 +39,6 @@ books_by_category = {
     ],
 }
 
-
 class RecommendationService(
     recommendations_pb2_grpc.RecommendationsServicer
 ):
@@ -49,7 +53,6 @@ class RecommendationService(
         )
 
         return RecommendationResponse(recommendations=books_to_recommend)
-
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
